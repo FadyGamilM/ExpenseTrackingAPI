@@ -1,6 +1,9 @@
 # ExpenseTrackingAPI
 API for Expense Tracking System to allow users to track their expenses for different types of categories.
 
+# ERD Diagram
+![](ERD.PNG)
+
 # How i managed my database via sql scripts
 ➜ (1) write a sql scripts with your ERD structure </br>
 
