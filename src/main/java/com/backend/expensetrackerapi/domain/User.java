@@ -1,110 +1,62 @@
 package com.backend.expensetrackerapi.domain;
 
-import lombok.ToString;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+// map the table with this class
+@Table(name = "et_users", uniqueConstraints = @UniqueConstraint(columnNames = "email", name = "unique_email_constraint"))
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
+    @Id
+    // specify the db column name to be mapped to this class-attr
+    @Column(name = "id", updatable = false)
+    @SequenceGenerator(name = "et_users_seq", sequenceName = "et_users_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "et_users_seq")
     private Long id;
+
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "password")
     private String password;
 
-    public User() {
-    }
-
-    public User(Long id, String firstName, String lastName, String username, String email, String password) {
-        setId(id);
-        setFirstName(firstName);
-        setLastName(lastName);
-        setUsername(username);
-        setEmail(email);
-        setPassword(password);
-    }
-
-    /**
-     * @return Long return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return String return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * @return String return the firstName
-     */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * @param firstName the firstName to set
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    /**
-     * @return String return the lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * @param lastName the lastName to set
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    /**
-     * @return String return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return String return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    // // @JsonIgnore // TO AVOID THE PROBLEM OF INFINITE LOOP ..
+    // @OneToMany(cascade = CascadeType.ALL)
+    // @JoinColumn(name = "user_id", referencedColumnName = "id") // the
+    // referencedColumnName is the name of the PK of
+    // // the current class and its the name of the attr not
+    // // the db column
+    // private Set<Category> categories;
 
     @Override
     public String toString() {
